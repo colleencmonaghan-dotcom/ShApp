@@ -1,0 +1,120 @@
+product,category,store,brand,seal,price_eur,notes,last_updated
+Vollmilch 1L,dairy,Lidl,Bioland Milch,Bioland,1.09,100% Bioland certified,2026-06-22
+Vollmilch 1L,dairy,Aldi,GutBio Milch,EU-Bio,0.99,,2026-06-22
+Vollmilch 1L,dairy,Rewe,Rewe Bio Milch,Bioland,1.19,,2026-06-22
+Vollmilch 1L,dairy,Reformhaus,Demeter Milch,Demeter,1.49,,2026-06-22
+Eier 6 Stück,eggs,Lidl,Bioland Eier,Bioland,1.79,Regional,2026-06-22
+Eier 6 Stück,eggs,Aldi,GutBio Eier,EU-Bio,1.59,,2026-06-22
+Eier 6 Stück,eggs,Rewe,Rewe Bio Eier,Bioland,1.89,,2026-06-22
+Butter 250g,dairy,Aldi,GutBio Butter,EU-Bio,1.89,,2026-06-22
+Butter 250g,dairy,Lidl,BioOrganic Butter,EU-Bio,1.95,,2026-06-22
+Butter 250g,dairy,Rewe,Rewe Bio Butter,Bioland,2.19,,2026-06-22
+Joghurt Natur 500g,dairy,Aldi,GutBio Joghurt,EU-Bio,0.79,,2026-06-22
+Joghurt Natur 500g,dairy,Lidl,Bioland Joghurt,Bioland,0.89,,2026-06-22
+Joghurt Natur 500g,dairy,Rewe,Rewe Bio Joghurt,Bioland,0.99,,2026-06-22
+Joghurt Natur 500g,dairy,Reformhaus,Demeter Joghurt,Demeter,1.39,,2026-06-22
+Gouda 400g,cheese,Aldi,GutBio Gouda,EU-Bio,2.49,,2026-06-22
+Gouda 400g,cheese,Rewe,Rewe Bio Gouda,Bioland,2.99,,2026-06-22
+Gouda 400g,cheese,Edeka,Edeka Bio Gouda,EU-Bio,2.79,,2026-06-22
+Magerquark 500g,dairy,Aldi,GutBio Quark,EU-Bio,0.89,,2026-06-22
+Magerquark 500g,dairy,Rewe,Rewe Bio Quark,Bioland,0.99,,2026-06-22
+Schlagsahne 200ml,dairy,Aldi,GutBio Sahne,EU-Bio,0.89,,2026-06-22
+Schlagsahne 200ml,dairy,Lidl,BioOrganic Sahne,EU-Bio,0.95,,2026-06-22
+Schlagsahne 200ml,dairy,Rewe,Rewe Bio Sahne,Bioland,1.09,,2026-06-22
+Vollkornbrot 500g,bread,Aldi,GutBio Vollkornbrot,EU-Bio,1.99,,2026-06-22
+Vollkornbrot 500g,bread,Rewe,Rewe Bio Vollkornbrot,Bioland,2.49,,2026-06-22
+Vollkornbrot 500g,bread,Reformhaus,Demeter Vollkornbrot,Demeter,3.49,,2026-06-22
+Dinkelbrot 750g,bread,Rewe,Rewe Bio Dinkelbrot,Bioland,2.79,,2026-06-22
+Dinkelbrot 750g,bread,Reformhaus,Demeter Dinkelbrot,Demeter,3.99,,2026-06-22
+Haferflocken 500g,cereals,Aldi,GutBio Haferflocken,EU-Bio,0.99,,2026-06-22
+Haferflocken 500g,cereals,Lidl,Bioland Haferflocken,Bioland,1.09,,2026-06-22
+Haferflocken 500g,cereals,Rewe,Rewe Bio Haferflocken,Bioland,1.19,,2026-06-22
+Pasta 500g,pasta,Aldi,GutBio Pasta,EU-Bio,1.19,,2026-06-22
+Pasta 500g,pasta,Lidl,BioOrganic Pasta,EU-Bio,1.29,,2026-06-22
+Pasta 500g,pasta,Rewe,Rewe Bio Pasta,Bioland,1.49,,2026-06-22
+Reis 1kg,grains,Aldi,GutBio Reis,EU-Bio,1.79,,2026-06-22
+Reis 1kg,grains,Lidl,BioOrganic Reis,EU-Bio,1.89,,2026-06-22
+Reis 1kg,grains,Rewe,Rewe Bio Reis,Bioland,2.19,,2026-06-22
+Mehl 1kg,baking,Aldi,GutBio Mehl,EU-Bio,0.99,,2026-06-22
+Mehl 1kg,baking,Rewe,Rewe Bio Mehl,Bioland,1.29,,2026-06-22
+Zucker 1kg,baking,Aldi,GutBio Zucker,EU-Bio,1.29,,2026-06-22
+Zucker 1kg,baking,Rewe,Rewe Bio Zucker,EU-Bio,1.49,,2026-06-22
+Olivenöl 500ml,oil,Aldi,GutBio Olivenöl,EU-Bio,3.99,,2026-06-22
+Olivenöl 500ml,oil,Lidl,BioOrganic Olivenöl,EU-Bio,4.29,,2026-06-22
+Olivenöl 500ml,oil,Rewe,Rewe Bio Olivenöl,Bioland,4.99,,2026-06-22
+Sonnenblumenöl 1L,oil,Aldi,GutBio Sonnenblumenöl,EU-Bio,2.49,,2026-06-22
+Sonnenblumenöl 1L,oil,Rewe,Rewe Bio Sonnenblumenöl,EU-Bio,2.79,,2026-06-22
+Karotten 1kg,vegetables,Aldi,GutBio Karotten,EU-Bio,1.49,,2026-06-22
+Karotten 1kg,vegetables,Lidl,BioOrganic Karotten,EU-Bio,1.59,,2026-06-22
+Karotten 1kg,vegetables,Rewe,Rewe Bio Karotten,Bioland,1.79,,2026-06-22
+Kartoffeln 1.5kg,vegetables,Aldi,GutBio Kartoffeln,EU-Bio,1.99,,2026-06-22
+Kartoffeln 1.5kg,vegetables,Lidl,BioOrganic Kartoffeln,EU-Bio,2.09,,2026-06-22
+Kartoffeln 1.5kg,vegetables,Rewe,Rewe Bio Kartoffeln,Bioland,2.49,,2026-06-22
+Tomaten 500g,vegetables,Aldi,GutBio Tomaten,EU-Bio,1.99,,2026-06-22
+Tomaten 500g,vegetables,Rewe,Rewe Bio Tomaten,Bioland,2.29,,2026-06-22
+Zwiebeln 1kg,vegetables,Aldi,GutBio Zwiebeln,EU-Bio,1.29,,2026-06-22
+Zwiebeln 1kg,vegetables,Rewe,Rewe Bio Zwiebeln,EU-Bio,1.49,,2026-06-22
+Spinat 300g,vegetables,Aldi,GutBio Spinat,EU-Bio,1.49,,2026-06-22
+Spinat 300g,vegetables,Rewe,Rewe Bio Spinat,Bioland,1.79,,2026-06-22
+Brokkoli,vegetables,Lidl,BioOrganic Brokkoli,EU-Bio,1.29,per head,2026-06-22
+Brokkoli,vegetables,Rewe,Rewe Bio Brokkoli,Bioland,1.49,per head,2026-06-22
+Paprika 3 Stück,vegetables,Aldi,GutBio Paprika,EU-Bio,1.79,,2026-06-22
+Paprika 3 Stück,vegetables,Rewe,Rewe Bio Paprika,Bioland,2.29,,2026-06-22
+Äpfel 1kg,fruit,Aldi,GutBio Äpfel,EU-Bio,1.99,,2026-06-22
+Äpfel 1kg,fruit,Lidl,BioOrganic Äpfel,EU-Bio,2.09,,2026-06-22
+Äpfel 1kg,fruit,Rewe,Rewe Bio Äpfel,Bioland,2.49,Regional when possible,2026-06-22
+Bananen 1kg,fruit,Aldi,GutBio Bananen,EU-Bio,1.49,Fairtrade,2026-06-22
+Bananen 1kg,fruit,Lidl,Bioland Bananen,Bioland,1.59,Fairtrade,2026-06-22
+Bananen 1kg,fruit,Rewe,Rewe Bio Bananen,Bioland,1.79,Fairtrade,2026-06-22
+Zitronen 500g,fruit,Aldi,GutBio Zitronen,EU-Bio,1.29,,2026-06-22
+Zitronen 500g,fruit,Rewe,Rewe Bio Zitronen,EU-Bio,1.49,,2026-06-22
+Orangen 1kg,fruit,Aldi,GutBio Orangen,EU-Bio,1.79,,2026-06-22
+Orangen 1kg,fruit,Rewe,Rewe Bio Orangen,EU-Bio,1.99,,2026-06-22
+Hähnchenbrust 500g,meat,Rewe,Rewe Bio Hähnchen,Bioland,5.99,,2026-06-22
+Hähnchenbrust 500g,meat,Edeka,Edeka Bio Hähnchen,EU-Bio,5.49,,2026-06-22
+Hähnchenbrust 500g,meat,Reformhaus,Demeter Hähnchen,Demeter,7.49,,2026-06-22
+Rinderhackfleisch 500g,meat,Rewe,Rewe Bio Rind,Bioland,6.99,,2026-06-22
+Rinderhackfleisch 500g,meat,Edeka,Edeka Bio Rind,EU-Bio,6.49,,2026-06-22
+Lachs 200g,fish,Rewe,Rewe Bio Lachs,EU-Bio,4.99,,2026-06-22
+Lachs 200g,fish,Edeka,Edeka Bio Lachs,EU-Bio,5.29,,2026-06-22
+Honig 500g,honey,Aldi,GutBio Honig,EU-Bio,3.49,,2026-06-22
+Honig 500g,honey,Rewe,Rewe Bio Honig,Bioland,4.29,,2026-06-22
+Honig 500g,honey,Reformhaus,Demeter Honig,Demeter,6.99,Regional beekeeper,2026-06-22
+Akazienhonig 500g,honey,Rewe,Rewe Bio Akazienhonig,Bioland,4.99,,2026-06-22
+Akazienhonig 500g,honey,Reformhaus,Demeter Akazienhonig,Demeter,7.49,,2026-06-22
+Erdbeermarmelade 330g,spreads,Aldi,GutBio Erdbeermarmelade,EU-Bio,1.49,,2026-06-22
+Erdbeermarmelade 330g,spreads,Rewe,Rewe Bio Erdbeermarmelade,Bioland,1.99,,2026-06-22
+Erdbeermarmelade 330g,spreads,Reformhaus,Demeter Erdbeermarmelade,Demeter,2.79,,2026-06-22
+Aprikosenmarmelade 330g,spreads,Aldi,GutBio Aprikosenmarmelade,EU-Bio,1.49,,2026-06-22
+Aprikosenmarmelade 330g,spreads,Rewe,Rewe Bio Aprikosenmarmelade,EU-Bio,1.79,,2026-06-22
+Erdnussbutter 250g,spreads,Aldi,GutBio Erdnussbutter,EU-Bio,1.99,,2026-06-22
+Erdnussbutter 250g,spreads,Rewe,Rewe Bio Erdnussbutter,EU-Bio,2.29,,2026-06-22
+Mandelmus 250g,spreads,Rewe,Rewe Bio Mandelmus,EU-Bio,3.49,,2026-06-22
+Mandelmus 250g,spreads,Reformhaus,Demeter Mandelmus,Demeter,4.99,,2026-06-22
+Walnüsse 200g,nuts,Aldi,GutBio Walnüsse,EU-Bio,2.49,,2026-06-22
+Walnüsse 200g,nuts,Rewe,Rewe Bio Walnüsse,Bioland,2.99,,2026-06-22
+Mandeln 200g,nuts,Aldi,GutBio Mandeln,EU-Bio,2.29,,2026-06-22
+Mandeln 200g,nuts,Rewe,Rewe Bio Mandeln,EU-Bio,2.79,,2026-06-22
+Cashewkerne 150g,nuts,Aldi,GutBio Cashews,EU-Bio,2.49,,2026-06-22
+Cashewkerne 150g,nuts,Rewe,Rewe Bio Cashews,EU-Bio,2.99,,2026-06-22
+Haselnüsse 200g,nuts,Aldi,GutBio Haselnüsse,EU-Bio,2.19,,2026-06-22
+Haselnüsse 200g,nuts,Rewe,Rewe Bio Haselnüsse,EU-Bio,2.59,,2026-06-22
+Nussmischung 200g,nuts,Aldi,GutBio Nussmischung,EU-Bio,2.29,,2026-06-22
+Nussmischung 200g,nuts,Rewe,Rewe Bio Nussmischung,EU-Bio,2.69,,2026-06-22
+Orangensaft 1L,drinks,Aldi,GutBio Orangensaft,EU-Bio,1.49,,2026-06-22
+Orangensaft 1L,drinks,Rewe,Rewe Bio Orangensaft,Bioland,1.99,,2026-06-22
+Apfelsaft 1L,drinks,Aldi,GutBio Apfelsaft,EU-Bio,1.29,,2026-06-22
+Apfelsaft 1L,drinks,Lidl,Bioland Apfelsaft,Bioland,1.49,,2026-06-22
+Apfelsaft 1L,drinks,Rewe,Rewe Bio Apfelsaft,Bioland,1.69,Regional,2026-06-22
+Kaffee 500g,drinks,Aldi,GutBio Kaffee,EU-Bio,6.99,Fairtrade,2026-06-22
+Kaffee 500g,drinks,Rewe,Rewe Bio Kaffee,Bioland,8.49,Fairtrade,2026-06-22
+Kaffee 500g,drinks,Reformhaus,Demeter Kaffee,Demeter,11.99,Fairtrade single origin,2026-06-22
+Linsen 500g,pulses,Aldi,GutBio Linsen,EU-Bio,1.49,,2026-06-22
+Linsen 500g,pulses,Rewe,Rewe Bio Linsen,Bioland,1.89,,2026-06-22
+Kichererbsen 400g,pulses,Aldi,GutBio Kichererbsen,EU-Bio,0.99,canned,2026-06-22
+Kichererbsen 400g,pulses,Rewe,Rewe Bio Kichererbsen,EU-Bio,1.29,canned,2026-06-22
+Gehackte Tomaten 400g,pantry,Aldi,GutBio Tomaten,EU-Bio,0.79,canned,2026-06-22
+Gehackte Tomaten 400g,pantry,Rewe,Rewe Bio Tomaten,Bioland,0.99,canned,2026-06-22
+Schokolade 100g,snacks,Aldi,GutBio Schokolade,EU-Bio,0.99,70% cocoa,2026-06-22
+Schokolade 100g,snacks,Rewe,Rewe Bio Schokolade,Bioland,1.49,70% cocoa,2026-06-22
+Schokolade 100g,snacks,Reformhaus,Demeter Schokolade,Demeter,2.29,single origin,2026-06-22
