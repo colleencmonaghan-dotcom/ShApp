@@ -84,37 +84,49 @@ def calc_unit_price(price: float, quantity: int, unit: str) -> tuple[float, str]
         return price / quantity, "€/piece"
 
 
+BULK_STORES = {"KoRo", "Süssundclever"}
+
+
+def _format_product_name(name: str, quantity: int, unit: str) -> str:
+    unit_display = {"g": "g", "ml": "ml", "egg": " eggs", "piece": " pcs"}.get(unit, unit)
+    size = f"{quantity}{unit_display}"
+    return name if str(quantity) in name else f"{name} ({size})"
+
+
+def _build_display_table(rows: pd.DataFrame) -> pd.DataFrame:
+    out = pd.DataFrame()
+    out["Store"] = rows["store"]
+    out["Product"] = rows.apply(lambda r: _format_product_name(r["product"], r["quantity"], r["unit"]), axis=1)
+    out["Seal"] = rows["seal"]
+    out["Price (€)"] = rows["price_eur"].apply(lambda x: f"€{x:.2f}")
+    out["Unit Price"] = rows.apply(
+        lambda r: f"€{calc_unit_price(r['price_eur'], r['quantity'], r['unit'])[0]:.2f} "
+                  f"{calc_unit_price(r['price_eur'], r['quantity'], r['unit'])[1]}", axis=1
+    )
+    out["Last Checked"] = rows["last_checked"]
+    out["Notes"] = rows["notes"].fillna("")
+    return out.reset_index(drop=True)
+
+
 def show_results(df: pd.DataFrame, item_label: str, search_term: str) -> None:
     matches = df[df["product"].str.contains(search_term, case=False, na=False)].copy()
     matches["seal_rank"] = matches["seal"].map(SEAL_ORDER).fillna(3)
     matches["unit_price"] = matches.apply(
         lambda r: calc_unit_price(r["price_eur"], r["quantity"], r["unit"])[0], axis=1
     )
-    matches = matches.sort_values(["seal_rank", "unit_price"])
+    matches = matches.sort_values(["seal_rank", "unit_price"]).reset_index(drop=True)
 
-    best = matches.iloc[0]
-    age = price_age_days(best["last_checked"])
-    updated_label = f"checked {best['last_checked']}"
-    up, up_label = calc_unit_price(best["price_eur"], best["quantity"], best["unit"])
+    top5 = matches.head(5)
 
-    if age > 2:
-        st.warning(
-            f"**{item_label}** — {best['store']} | {best['brand']} | {best['seal']} | **€{best['price_eur']:.2f}** ⚠️ outdated ({updated_label})"
-        )
-    else:
-        st.success(
-            f"**{item_label}** — {best['store']} | {best['brand']} | {best['seal']} | **€{best['price_eur']:.2f}**"
-        )
-    st.caption(f"€{up:.2f} {up_label} · {updated_label}")
+    st.subheader(item_label)
+    st.dataframe(_build_display_table(top5), hide_index=True, use_container_width=True)
 
-    with st.expander("See all options"):
-        display = matches[["store", "brand", "seal", "price_eur", "unit_price", "last_checked", "notes"]].copy()
-        display["unit_price"] = display.apply(
-            lambda r: f"€{r['unit_price']:.2f} {calc_unit_price(r['price_eur'], matches.loc[r.name, 'quantity'], matches.loc[r.name, 'unit'])[1]}",
-            axis=1
-        )
-        display.columns = ["Store", "Brand", "Seal", "Price (€)", "Unit Price", "Last Checked", "Notes"]
-        st.dataframe(display, hide_index=True)
+    # If all top results are bulk-only, show the best supermarket alternatives too
+    if top5["store"].isin(BULK_STORES).all():
+        non_bulk = matches[~matches["store"].isin(BULK_STORES)].head(3)
+        if not non_bulk.empty:
+            st.caption("Supermarket alternatives (not bulk):")
+            st.dataframe(_build_display_table(non_bulk), hide_index=True, use_container_width=True)
 
 
 # --- SHOPPING LIST SECTION ---
