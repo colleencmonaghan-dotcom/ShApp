@@ -241,9 +241,9 @@ st.divider()
 
 st.subheader("The hidden secret: own-brand bio")
 st.write("""
-Around 65% of bio revenue in Germany now comes from supermarket own-brand lines like Aldi GutBio,
-Rewe Bio, and Edeka Bio. Many of these come from the same certified farms as expensive branded products.
-The difference is often just the label tier, not the farm. This app will help you find those hidden deals.
+Every major German supermarket now has its own bio line — Aldi GutBio, Rewe Bio, Edeka Bio, Lidl Bio.
+Many of these come from the same certified farms as expensive branded products.
+The difference is often just the label, not the farm. This app will help you find those hidden deals.
 """)
 
 st.divider()
