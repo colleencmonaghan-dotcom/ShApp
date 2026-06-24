@@ -241,7 +241,32 @@ st.divider()
 
 st.subheader("The hidden secret: own-brand bio")
 st.write("""
-Around 65% of bio revenue in Germany now comes from supermarket own-brand lines like Aldi GutBio, 
-Rewe Bio, and Edeka Bio. Many of these come from the same certified farms as expensive branded products. 
+Around 65% of bio revenue in Germany now comes from supermarket own-brand lines like Aldi GutBio,
+Rewe Bio, and Edeka Bio. Many of these come from the same certified farms as expensive branded products.
 The difference is often just the label tier, not the farm. This app will help you find those hidden deals.
+""")
+
+st.divider()
+
+st.header("About")
+st.write("""
+I'm Irish, living just outside Tübingen.
+
+When I moved to Germany I noticed two things: bio products are everywhere, and nobody makes it easy
+to figure out which ones are actually worth buying.
+
+The bio labels confused me at first. Is "EU-Bio" just a checkbox, or does it mean something? Is Demeter
+genuinely different, or is it marketing? I wanted straight answers, not greenwashing.
+
+I also wanted to know where to shop. There are apps that collect the weekly supermarket magazines, but
+you still end up scrolling through pages of deals. I wanted one place to ask "what does milk cost this
+week, and where?" — and eventually, "should I wait for a sale, or is today's price already good?"
+
+ShApp started as a price comparison tool. The bio ranking is a bonus — because once I understood what
+the seals actually mean, I wanted to factor that in too. But this is fundamentally about prices.
+Salaries haven't kept up with inflation, and nobody should be paying more than they have to for their
+weekly shop.
+
+This is version one. Weekly sale prices are coming. More stores are coming. For now: paste your list,
+see your options.
 """)
