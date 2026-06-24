@@ -1,0 +1,40 @@
+# ShApp Content Checklist
+
+## Bio Seals Page
+
+- [x] Lidl x Bioland partnership since November 2018
+  - SOURCE: https://unternehmen.lidl.de/pressreleases/2023/230320_5-jahre-lidl-und-bioland
+  - SOURCE: https://www.esmmagazine.com/retail/lidl-and-bioland-expand-five-year-partnership-235726
+
+- [x] Netto x Naturland partnership (BioBio line, certified since late 2023)
+  - SOURCE: https://www.netto-online.de/ueber-netto/Naturland.chtm
+  - SOURCE: https://biohandel.de/markt-branche/kurz-notiert/netto-eigenmarke-biobio-erhaelt-das-naturland-siegel
+
+- [x] Demeter biodynamic requirements (10% biodiversity preserve, 9 preparations)
+  - SOURCE: https://demeter.net/certification/standard/
+  - SOURCE: https://en.wikipedia.org/wiki/Demeter_International
+
+- [x] Bioland: at least half feed from own farm, stricter animal density than EU-Bio
+  - SOURCE: https://www.nesch-organic.com/germany/bioland/bioland-certification-process/
+  - SOURCE: https://www.ecolabelindex.com/ecolabel/bioland
+
+- [x] Naturland: mandatory annual animal welfare inspections, social standards
+  - SOURCE: https://www.naturland.de/en/producers/service-and-expertise/certification.html
+
+- [x] Removed "some Aldi products" from Bioland description — Aldi GutBio is EU-Bio, not Bioland
+  - VERIFIED: Aldi own-brand bio is EU-Bio certified only
+
+- [x] Removed Reformhaus from app — independent retailer, not a supermarket chain
+
+- [x] Demeter and Bioland premium percentages — removed from app, were hallucinated with no source
+- [ ] 65% own-brand bio revenue stat — needs source
+
+## To Add to App
+- [x] Naturland seal — added
+- [x] K-Bio (Kaufland) seal — added
+- [x] Bioland — updated with specific store locations, removed inaccurate Aldi reference
+- [x] Demeter — removed Reformhaus, updated to Bioladen/Naturkostladen
+- [ ] Where to find Demeter specifically in Tübingen — verify weekly market days/locations
+
+## Expected Behaviour
+- [x] With spelling mistakes entered, display corrected spelling e.g. egss → shows "Egss → Eier 6 Stück"

@@ -5,8 +5,24 @@ import json
 from pathlib import Path
 from datetime import date, datetime
 from dotenv import load_dotenv
+from src.shopify_fetch import fetch_all_shops
+from src.koro_fetch import fetch_koro
 
 load_dotenv(Path(__file__).parent / ".env")
+
+
+@st.cache_data(ttl=3600)
+def load_live_data() -> pd.DataFrame:
+    rows = []
+    try:
+        rows.extend(fetch_all_shops())
+    except Exception:
+        pass
+    try:
+        rows.extend(fetch_koro())
+    except Exception:
+        pass
+    return pd.DataFrame(rows) if rows else pd.DataFrame()
 
 st.set_page_config(page_title="ShApp - Bio Supermarkt Vergleich", layout="wide")
 
@@ -15,28 +31,29 @@ st.write("Paste your shopping list and find the cheapest bio options near Tübin
 
 st.divider()
 
-SEAL_ORDER = {"Demeter": 0, "Bioland": 1, "EU-Bio": 2}
+SEAL_ORDER = {"Demeter": 0, "Bioland": 1, "Naturland": 1, "EU-Bio": 2}
 
 
-def match_items_with_claude(items: list[str], products: list[str]) -> dict[str, str | None]:
+def match_items_with_claude(items: list[str]) -> dict[str, dict]:
+    """Returns {input: {"term": "German keyword", "label": "Clean English label"}} for each item."""
     client = anthropic.Anthropic()
-    product_list = "\n".join(f"- {p}" for p in products)
     items_list = "\n".join(f"- {item}" for item in items)
 
     message = client.messages.create(
         model="claude-sonnet-4-6",
-        max_tokens=512,
+        max_tokens=768,
         messages=[
             {
                 "role": "user",
                 "content": (
-                    "Match each shopping list item to the best product from a German bio supermarket database.\n\n"
-                    f"Shopping list (may be in any language):\n{items_list}\n\n"
-                    f"Available products:\n{product_list}\n\n"
-                    "Return ONLY a JSON object where each key is the EXACT shopping list item text "
-                    "(including any quantities or extra words) and the value is the matched product name. "
-                    'Example: {"2x milk": "Vollmilch 1L", "6 eggs": "Eier 6 Stück"}. '
-                    "Use null if no match. No explanation, just JSON."
+                    "Translate each shopping list item into a short German keyword (1-3 words, no quantities) "
+                    "suitable for searching a German bio supermarket product database. "
+                    "Also provide a clean English display label, correcting any typos.\n\n"
+                    f"Shopping list (may be in any language, may contain typos):\n{items_list}\n\n"
+                    "Return ONLY a JSON object where each key is the EXACT shopping list item text. "
+                    'Each value has "term" (German keyword) and "label" (clean English). '
+                    'Example: {"egss": {"term": "Eier", "label": "Eggs"}, "2x milk": {"term": "Vollmilch", "label": "Milk"}, "cashews": {"term": "Cashewkerne", "label": "Cashews"}}. '
+                    'Use {"term": null, "label": "<original>"} if no translation possible. No explanation, just JSON.'
                 ),
             }
         ],
@@ -46,37 +63,57 @@ def match_items_with_claude(items: list[str], products: list[str]) -> dict[str, 
         import re
         text = message.content[0].text
         json_match = re.search(r"\{.*\}", text, re.DOTALL)
-        return json.loads(json_match.group()) if json_match else {item: None for item in items}
+        return json.loads(json_match.group()) if json_match else {item: {"term": None, "label": item} for item in items}
     except (json.JSONDecodeError, IndexError, KeyError, AttributeError):
-        return {item: None for item in items}
+        return {item: {"term": None, "label": item} for item in items}
 
 
-def price_age_days(last_updated_str: str) -> int:
-    updated = datetime.strptime(last_updated_str, "%Y-%m-%d").date()
+def price_age_days(last_checked_str: str) -> int:
+    updated = datetime.strptime(last_checked_str, "%Y-%m-%d").date()
     return (date.today() - updated).days
 
 
-def show_results(df: pd.DataFrame, item_label: str, product_name: str) -> None:
-    matches = df[df["product"] == product_name].copy()
+def calc_unit_price(price: float, quantity: int, unit: str) -> tuple[float, str]:
+    if unit == "g":
+        return price / quantity * 100, "€/100g"
+    elif unit == "ml":
+        return price / quantity * 100, "€/100ml"
+    elif unit == "egg":
+        return price / quantity, "€/egg"
+    else:
+        return price / quantity, "€/piece"
+
+
+def show_results(df: pd.DataFrame, item_label: str, search_term: str) -> None:
+    matches = df[df["product"].str.contains(search_term, case=False, na=False)].copy()
     matches["seal_rank"] = matches["seal"].map(SEAL_ORDER).fillna(3)
-    matches = matches.sort_values(["seal_rank", "price_eur"])
+    matches["unit_price"] = matches.apply(
+        lambda r: calc_unit_price(r["price_eur"], r["quantity"], r["unit"])[0], axis=1
+    )
+    matches = matches.sort_values(["seal_rank", "unit_price"])
 
     best = matches.iloc[0]
-    age = price_age_days(best["last_updated"])
-    updated_label = f"checked {best['last_updated']}"
+    age = price_age_days(best["last_checked"])
+    updated_label = f"checked {best['last_checked']}"
+    up, up_label = calc_unit_price(best["price_eur"], best["quantity"], best["unit"])
 
     if age > 2:
         st.warning(
-            f"**{item_label.title()}** → {best['store']} | {best['brand']} | {best['seal']} | €{best['price_eur']:.2f} — ⚠️ price may be outdated ({updated_label})"
+            f"**{item_label}** — {best['store']} | {best['brand']} | {best['seal']} | **€{best['price_eur']:.2f}** ⚠️ outdated ({updated_label})"
         )
     else:
         st.success(
-            f"**{item_label.title()}** → {best['store']} | {best['brand']} | {best['seal']} | €{best['price_eur']:.2f} — {updated_label}"
+            f"**{item_label}** — {best['store']} | {best['brand']} | {best['seal']} | **€{best['price_eur']:.2f}**"
         )
+    st.caption(f"€{up:.2f} {up_label} · {updated_label}")
 
     with st.expander("See all options"):
-        display = matches[["store", "brand", "seal", "price_eur", "last_updated", "notes"]].copy()
-        display.columns = ["Store", "Brand", "Seal", "Price (€)", "Last Checked", "Notes"]
+        display = matches[["store", "brand", "seal", "price_eur", "unit_price", "last_checked", "notes"]].copy()
+        display["unit_price"] = display.apply(
+            lambda r: f"€{r['unit_price']:.2f} {calc_unit_price(r['price_eur'], matches.loc[r.name, 'quantity'], matches.loc[r.name, 'unit'])[1]}",
+            axis=1
+        )
+        display.columns = ["Store", "Brand", "Seal", "Price (€)", "Unit Price", "Last Checked", "Notes"]
         st.dataframe(display, hide_index=True)
 
 
@@ -90,31 +127,39 @@ shopping_input = st.text_area(
 
 if st.button("Find best bio options", type="primary", disabled=not shopping_input):
     try:
-        df = pd.read_csv("data/raw/products.csv")
+        df_csv = pd.read_csv("data/raw/products.csv")
     except FileNotFoundError:
         st.error("Product database not found. Make sure data/raw/products.csv exists.")
         st.stop()
 
+    df_live = load_live_data()
+    df = pd.concat([df_csv, df_live], ignore_index=True) if not df_live.empty else df_csv
+
+    if not df_live.empty:
+        per_store = df_live.groupby("store").size().to_dict()
+        breakdown = ", ".join(f"{s}: {n}" for s, n in per_store.items())
+        st.caption(f"Live products loaded — {breakdown}")
+
     raw = shopping_input.replace(",", "\n")
     items = [line.strip() for line in raw.split("\n") if line.strip()]
-    unique_products = df["product"].unique().tolist()
 
     with st.spinner("Matching items with Claude..."):
-        matches = match_items_with_claude(items, unique_products)
+        matches = match_items_with_claude(items)
 
     st.subheader("Results")
     for item in items:
-        product_name = matches.get(item) or matches.get(item.lower())
-        # Fallback: Claude may have normalised the key (e.g. stripped "2x" prefix)
-        if not product_name:
+        result = matches.get(item) or matches.get(item.lower())
+        if not result:
             for key, val in matches.items():
                 if key and (key.lower() in item.lower() or item.lower() in key.lower()):
-                    product_name = val
+                    result = val
                     break
-        if not product_name or product_name not in df["product"].values:
-            st.warning(f"No match found for: **{item}**")
+        term = result.get("term") if result else None
+        label = result.get("label", item) if result else item
+        if not term or df["product"].str.contains(term, case=False, na=False).sum() == 0:
+            st.warning(f"No match found for: **{label}**")
         else:
-            show_results(df, item, product_name)
+            show_results(df, label, term)
 
 st.divider()
 
@@ -124,49 +169,73 @@ st.write(
     "Not all bio is equal. Here is what the labels actually mean, from strongest to weakest:"
 )
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 
 with col1:
     st.subheader("🌿 Demeter")
     st.write("**Strongest standard.**")
     st.write(
-        "Goes far beyond organic farming. Requires biodynamic agriculture, animal welfare standards, and soil health practices. The gold standard in Germany."
+        "Biodynamic agriculture based on Rudolf Steiner's methods. Requires a minimum 10% of farm land set aside as a biodiversity preserve, nine biodynamic soil preparations, strict animal welfare, and integrated farm management. The gold standard in Germany."
     )
     st.write(
-        "**Where to find it:** Reformhaus, Bioladen, some Rewe/Edeka shelves, weekly markets in Tübingen"
+        "**Where to find it:** Bioladen, Naturkostladen, some Rewe and Edeka shelves, weekly markets in Tübingen"
     )
-    st.write("**Typical premium:** 20-40% above EU-Bio")
+    st.write("**Typical premium:** noticeably higher than EU-Bio — exact difference varies by product")
 
 with col2:
     st.subheader("🌾 Bioland")
     st.write("**Strong standard.**")
     st.write(
-        "Germany's largest organic association. Stricter than EU-Bio on animal welfare, no GMO, regional focus. A reliable choice."
+        "Germany's largest domestic organic association. Stricter than EU-Bio: more space per animal, at least half of feed must come from the farm itself, antibiotics strictly controlled, no GMO, strong regional focus."
     )
     st.write(
-        "**Where to find it:** Rewe Bio, Edeka Bio, Lidl (official Bioland partner since 2018), some Aldi products"
+        "**Where to find it:** Rewe Bio, Edeka Bio, Lidl (partner since November 2018), Kaufland (partner since 2022)"
     )
-    st.write("**Typical premium:** 10-25% above EU-Bio")
+    st.write("**Typical premium:** higher than EU-Bio — exact difference varies by product")
 
 with col3:
+    st.subheader("🍃 Naturland")
+    st.write("**Strong international standard.**")
+    st.write(
+        "Germany's largest international organic association. Stricter than EU-Bio with mandatory annual animal welfare inspections on top of standard organic checks. Also covers social standards and fair trade principles."
+    )
+    st.write(
+        "**Where to find it:** Netto (BioBio own-brand line, Naturland certified since late 2023)"
+    )
+    st.write("**Typical premium:** Similar to Bioland")
+
+col4, col5, col6 = st.columns(3)
+
+with col4:
     st.subheader("☘️ EU-Bio")
     st.write("**Baseline standard.**")
     st.write(
-        "The legal minimum to call something organic in Europe. No pesticides, no GMO. Solid but less strict than German associations on animal welfare and processing."
+        "The legal minimum to call something organic in Europe. No synthetic pesticides, no GMO. Solid but less strict than German associations on animal welfare, feed sourcing, and processing."
     )
     st.write(
-        "**Where to find it:** Everywhere. Aldi GutBio, Lidl Bio, own-brand bio lines"
+        "**Where to find it:** Everywhere — Aldi GutBio, Lidl Bio, Kaufland K-Bio, own-brand bio lines across all major supermarkets"
     )
     st.write("**Typical premium:** Starting point for comparison")
 
-with col4:
+with col5:
+    st.subheader("🛒 K-Bio (Kaufland)")
+    st.write("**Store own-label brand, not a certification.**")
+    st.write(
+        "K-Bio is Kaufland's own-brand name for organic products. The underlying certification is EU-Bio. Kaufland is also one of the most complete bio supermarkets in Germany — it carries EU-Bio (K-Bio), Bioland (partner since 2022, 150+ products), and Demeter (member since 2020, 250+ products)."
+    )
+    st.write(
+        "**Where to find it:** Kaufland stores only"
+    )
+    st.write("**Tip:** Check the small print — a Kaufland product can carry Bioland or Demeter, not just K-Bio")
+
+with col6:
     st.subheader("❓ No seal")
     st.write("**Unverified.**")
     st.write(
-        "Some products use words like 'natürlich' or 'from the region' without any certification. These have no legal meaning in terms of organic standards."
+        "Words like 'natürlich', 'from the region', or 'traditional' have no legal meaning in terms of organic standards. Any producer can use them without certification."
     )
     st.write("**Where to find it:** Farmers markets, small producers, some packaging")
-    st.write("**What to do:** Ask the seller directly")
+    st.write("**What to do:** Ask the seller directly about their farming practices")
 
 st.divider()
 
