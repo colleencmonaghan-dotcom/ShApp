@@ -7,6 +7,7 @@ from datetime import date, datetime
 from dotenv import load_dotenv
 from src.shopify_fetch import fetch_all_shops
 from src.koro_fetch import fetch_koro
+from src.rewe_fetch import fetch_rewe, load_rewe_from_csv
 
 load_dotenv(Path(__file__).parent / ".env")
 
@@ -22,6 +23,10 @@ def load_live_data() -> pd.DataFrame:
         rows.extend(fetch_koro())
     except Exception:
         pass
+    try:
+        rows.extend(fetch_rewe())
+    except Exception:
+        rows.extend(load_rewe_from_csv())
     return pd.DataFrame(rows) if rows else pd.DataFrame()
 
 st.set_page_config(page_title="ShApp - Bio Supermarkt Vergleich", layout="wide")
